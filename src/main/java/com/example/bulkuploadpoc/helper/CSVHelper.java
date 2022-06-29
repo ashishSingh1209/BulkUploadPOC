@@ -19,12 +19,7 @@ import java.util.Objects;
 
 public class CSVHelper {
     public static String TYPE = "text/csv";
-   /* static String[] HEADERs = {"EMPLOYEE_ID", "FIRST_NAME",
-            "LAST_NAME", "EMAIL", "PHONE_NUMBER", "HIRE_DATE",
-            "JOB_ID", "SALARY", "COMMISSION_PCT", "MANAGER_ID",
-            "DEPARTMENT_ID"
-    };
-*/
+
     public static boolean hasCSVFormat(MultipartFile file) {
         if (!TYPE.equals(file.getContentType())) {
             return false;
@@ -66,7 +61,7 @@ public class CSVHelper {
             String parseString = str.substring(1, str.length() - 1);
             Gson gson = new Gson();
             return gson.fromJson(parseString, ProductVendor.class);
-        }else return null;
+        } else return null;
     }
 
     public static List<String> listParser(String str) {
