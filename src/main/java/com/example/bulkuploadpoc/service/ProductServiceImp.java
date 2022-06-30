@@ -20,7 +20,7 @@ public class ProductServiceImp implements ProductService {
     @Override
     public void save(MultipartFile file) {
         try {
-            List<Product> tutorials = CSVHelper.csvToTutorials(file.getInputStream());
+            List<Product> tutorials = CSVHelper.csvToProductList(file.getInputStream());
             userRepository.saveAll(tutorials);
         } catch (IOException e) {
             throw new RuntimeException("fail to store csv data: " + e.getMessage());

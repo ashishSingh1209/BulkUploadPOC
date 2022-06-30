@@ -28,7 +28,7 @@ public class CSVHelper {
 
     }
 
-    public static List<Product> csvToTutorials(InputStream is) {
+    public static List<Product> csvToProductList(InputStream is) {
         try (BufferedReader fileReader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
              CSVParser csvParser = new CSVParser(fileReader,
                      CSVFormat.DEFAULT.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim());) {
@@ -73,7 +73,6 @@ public class CSVHelper {
         }
         return parsedList;
     }
-    //New change is here
 
 }
 
