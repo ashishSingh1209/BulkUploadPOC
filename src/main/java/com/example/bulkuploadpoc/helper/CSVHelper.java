@@ -32,8 +32,7 @@ public class CSVHelper {
     public static List<Product> csvToProductList(InputStream is) {
         try (BufferedReader fileReader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
              CSVParser csvParser = new CSVParser(fileReader,
-                     CSVFormat.DEFAULT.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim());)
-        {
+                     CSVFormat.DEFAULT.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim());) {
             List<Product> products = new ArrayList<Product>();
             Iterable<CSVRecord> csvRecords = csvParser.getRecords();
             for (CSVRecord csvRecord : csvRecords) {
@@ -58,33 +57,33 @@ public class CSVHelper {
         }
     }
 
-public static String productListToCSV(List<Product> list){
-    String fileName = UUID.randomUUID().toString();
-    String csvFilePath = "//home//usl-sz-424//Desktop//OutPut//" + fileName + ".csv";
-    File file = new File(csvFilePath);
-    ICsvBeanWriter beanWriter = null;
-
-    try {
-        FileWriter outputFile = new FileWriter(file);
-        beanWriter = new CsvBeanWriter(outputFile, CsvPreference.STANDARD_PREFERENCE);
-        String[] csvHeader = {"_id", "brand", "color", "description", "internalCategories", "name", "productType",
-                "shopCategories", "productVendor", "status", "weight"};
-        beanWriter.writeHeader(csvHeader);
-        String[] nameMapping = {"_id", "brand", "color", "description", "internalCategories", "name", "productType",
-                "shopCategories", "productVendor", "status", "weight"};
+    public static String productListToCSV(List<Product> list) {
+        String fileName = UUID.randomUUID().toString();
+        String csvFilePath = "//home//usl-sz-424//Desktop//OutPut//" + fileName + ".csv";
+        File file = new File(csvFilePath);
 
 
-        for (Product product : list) {
-            beanWriter.write(product, nameMapping);
+        try {
+            FileWriter outputFile = new FileWriter(file);
+            ICsvBeanWriter beanWriter = new CsvBeanWriter(outputFile, CsvPreference.STANDARD_PREFERENCE);
+            String[] csvHeader = {"_id", "brand", "color", "description", "internalCategories", "name", "productType",
+                    "shopCategories", "productVendor", "status", "weight"};
+            beanWriter.writeHeader(csvHeader);
+            String[] nameMapping = {"_id", "brand", "color", "description", "internalCategories", "name", "productType",
+                    "shopCategories", "productVendor", "status", "weight"};
+
+
+            for (Product product : list) {
+                beanWriter.write(product, nameMapping);
+            }
+            beanWriter.close();
+            return "Fetched to: " + csvFilePath;
+
+
+        } catch (Exception e) {
+            return "Failed to fetched csv file: " + e.getMessage();
         }
-        beanWriter.close();
-        return "Fetched to: " + csvFilePath;
-
-
-    } catch (Exception e) {
-        return "Failed to fetched csv file: " + e.getMessage();
     }
-}
 
     public static ProductVendor productVendor(String str) {
         if (!Objects.equals(str, "")) {

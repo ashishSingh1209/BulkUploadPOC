@@ -12,14 +12,14 @@ import java.util.Objects;
 
 public class ImageFileValidator {
     public static String[] IMAGE_TYPE = {"image/jpeg", "image/jpg", "image/png"};
-    public static double IMAGE_SIZE = 2.000f;
+    public static double IMAGE_SIZE = 6.000f;
     public static double IMAGE_SIZE_MB = 1048576;
     public static String imageExtension;
 
 
     public static boolean hasImageFormat(MultipartFile file) {
-        String spliter[] = file.getContentType().split("/");
-        imageExtension = spliter[1];
+        String[] splitter = Objects.requireNonNull(file.getContentType()).split("/");
+        imageExtension = splitter[1];
         return Arrays.asList(IMAGE_TYPE).contains(Objects.requireNonNull(file.getContentType()).toLowerCase(Locale.ROOT));
     }
 
