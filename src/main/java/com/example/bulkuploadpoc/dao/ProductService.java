@@ -9,4 +9,8 @@ public interface ProductService {
     void save(MultipartFile file);
 
     List<Product> getAllData();
+
+
+
+    String getCsvInDirectory();
 }

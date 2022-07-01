@@ -34,4 +34,11 @@ public class ProductServiceImp implements ProductService {
     }
 
 
+
+    @Override
+    public String getCsvInDirectory() {
+    return   CSVHelper.productListToCSV(userRepository.findAll());
+
+    }
 }
+

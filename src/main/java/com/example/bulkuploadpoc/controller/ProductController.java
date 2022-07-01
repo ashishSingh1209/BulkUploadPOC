@@ -53,4 +53,14 @@ public class ProductController {
     }
 
 
+    @GetMapping("/inDirectory")
+    public ResponseDTO<String> getDataInDirectory() {
+        try {
+            return ResponseDTO.success(userService.getCsvInDirectory());
+        } catch (Exception e) {
+            return ResponseDTO.failure("Failed to fetch data: " + e.getMessage());
+        }
+    }
+
+
 }

@@ -8,14 +8,15 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.springframework.web.multipart.MultipartFile;
+import org.supercsv.io.CsvBeanWriter;
+import org.supercsv.io.ICsvBeanWriter;
+import org.supercsv.prefs.CsvPreference;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 public class CSVHelper {
     public static String TYPE = "text/csv";
@@ -56,6 +57,34 @@ public class CSVHelper {
             throw new RuntimeException("fail to parse CSV file: " + e.getMessage());
         }
     }
+
+public static String productListToCSV(List<Product> list){
+    String fileName = UUID.randomUUID().toString();
+    String csvFilePath = "//home//usl-sz-424//Desktop//OutPut//" + fileName + ".csv";
+    File file = new File(csvFilePath);
+    ICsvBeanWriter beanWriter = null;
+
+    try {
+        FileWriter outputFile = new FileWriter(file);
+        beanWriter = new CsvBeanWriter(outputFile, CsvPreference.STANDARD_PREFERENCE);
+        String[] csvHeader = {"_id", "brand", "color", "description", "internalCategories", "name", "productType",
+                "shopCategories", "productVendor", "status", "weight"};
+        beanWriter.writeHeader(csvHeader);
+        String[] nameMapping = {"_id", "brand", "color", "description", "internalCategories", "name", "productType",
+                "shopCategories", "productVendor", "status", "weight"};
+
+
+        for (Product product : list) {
+            beanWriter.write(product, nameMapping);
+        }
+        beanWriter.close();
+        return "Fetched to: " + csvFilePath;
+
+
+    } catch (Exception e) {
+        return "Failed to fetched csv file: " + e.getMessage();
+    }
+}
 
     public static ProductVendor productVendor(String str) {
         if (!Objects.equals(str, "")) {
