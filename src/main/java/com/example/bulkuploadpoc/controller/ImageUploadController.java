@@ -21,17 +21,29 @@ public class ImageUploadController {
     public ResponseDTO<String> uploadImage(@PathVariable String title, @RequestParam("image") MultipartFile file) {
         String message;
         if (ImageFileValidator.hasImageFormat(file)) {
-            try {
-                imageService.uploadImage(title, file);
-                message = "Image uploaded successfully";
-                return ResponseDTO.success(message);
+            if (ImageFileValidator.hasValidImageSize(file)) {
+                try {
+                    imageService.uploadImage(title, file);
+                    message = "Image uploaded successfully";
+                    return ResponseDTO.success(message);
 
-            } catch (Exception e) {
-                message = "Error in uploading file: Error must be: " + e.getMessage();
-                return ResponseDTO.failure(message);
+                } catch (Exception e) {
+                    message = "Error in uploading file: Error must be: " + e.getMessage();
+                    return ResponseDTO.failure(message);
+                }
             }
+            message = "Image is greater 6 MB.";
+            return ResponseDTO.failure(message);
+
         }
         message = "Please uplaod Image file";
         return ResponseDTO.failure(message);
     }
+
+    @GetMapping("/getImage/{id}")
+    public String getImage(@PathVariable String id){
+        return imageService.getImage(id);
+
+    }
+
 }

@@ -19,5 +19,6 @@ public class ImageModel {
     private String id;
     private String title;
     private Binary image;
+    private String imageExtension;
 
 }

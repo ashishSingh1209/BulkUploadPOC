@@ -14,11 +14,21 @@ import java.util.Locale;
 import java.util.Objects;
 
 public class ImageFileValidator {
-    public static String[] IMAGE_TYPE = {"image/jpeg", "image/jpg"};
+    public static String[] IMAGE_TYPE = {"image/jpeg", "image/jpg", "image/png"};
+    public static double IMAGE_SIZE = 2.000f;
+    public static double IMAGE_SIZE_MB = 1048576;
+    public static String imageExtension;
 
 
     public static boolean hasImageFormat(MultipartFile file) {
+        String spliter[] = file.getContentType().split("/");
+        imageExtension = spliter[1];
         return Arrays.asList(IMAGE_TYPE).contains(Objects.requireNonNull(file.getContentType()).toLowerCase(Locale.ROOT));
+    }
+
+    public static boolean hasValidImageSize(MultipartFile file) {
+
+        return (file.getSize() / IMAGE_SIZE_MB <= IMAGE_SIZE);
     }
 
     public static ImageModel imageValidated(String title, MultipartFile file) throws IOException {
@@ -26,6 +36,7 @@ public class ImageFileValidator {
             return ImageModel.builder()
                     .title(title)
                     .image(new Binary(BsonBinarySubType.BINARY, file.getBytes()))
+                    .imageExtension(imageExtension)
                     .build();
         } catch (IOException e) {
             throw new IOException("Error in validating Image, Error must be: " + e.getMessage());
